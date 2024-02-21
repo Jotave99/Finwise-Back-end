@@ -14,6 +14,15 @@ app.get('/', (req, res) =>{
     res.status(200).json({ msg: 'Bem-vindo a nossa API!'})
 })
 
+app.get('/user/:id', async(req,res) => {
+    const id = req.params.id;
+    const user = await User.findById(id, '-password');
+
+    if(!user) {
+        return res.status(404).json({ msg: 'Usuário não encontrado.'})
+    }
+})
+
 app.post('/auth/register', async(req,res) =>{
 
     const {name, email, password, confirmPassword} = req.body;
@@ -55,6 +64,43 @@ app.post('/auth/register', async(req,res) =>{
         res.status(500).json({msg: 'Aconteceu um erro no servidor, tente novamente mais tarde.'})
     }
 })
+
+app.post('/auth/login', async(req, res) =>{
+    const {email, password} = req.body;
+
+    if(!email) {
+        return res.status(422).json({ msg: 'O email é obrigatório!'})
+    }
+    if(!password) {
+        return res.status(422).json({ msg: 'A senha é obrigatória!'})
+    }
+
+    const user = await User.findOne({email:email});
+
+    if(!user){
+        return res.status(404).json({msg:'Este usuário não existe. Por favor, utilize um e-mail válido, ou cadastre-se.'})
+    }
+
+    const checkPassword = await bcrypt.compare(password, user.password);
+
+    if(!checkPassword){
+        return res.status(404).json({msg:'Senha inválida.'})
+    }
+
+    try{
+        const secret = process.env.SECRET;
+        const token = jwt.sign({
+            id: user._id
+        }, secret,
+        )
+
+        res.status(200).json({msg: 'Autenticação realizada com sucesso.', token})
+    }catch(err){
+
+    }
+
+
+});
 
 const dbUser = process.env.DB_USER;
 const dbPassword = process.env.DB_PASS;
