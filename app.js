@@ -3,10 +3,12 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const cors = require('cors');
 
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 const User = require('./models/User');
 
@@ -46,6 +48,8 @@ function checkToken(req, res, next){
 
 app.post('/auth/register', async(req,res) =>{
 
+    console.log('Recebendo solicitação para criar uma nova conta:', req.body);
+
     const {name, email, password, confirmPassword} = req.body;
 
     if(!name) {
@@ -78,6 +82,8 @@ app.post('/auth/register', async(req,res) =>{
 
     try{
         await user.save();
+
+        console.log('Usuário criado com sucesso:', user);
 
         res.status(201).json({msg: 'Usuário criado com sucesso!'});
 
@@ -129,6 +135,6 @@ const dbPassword = process.env.DB_PASS;
 mongoose.connect(
     `mongodb+srv://${dbUser}:${dbPassword}@cluster0.yexraev.mongodb.net/?retryWrites=true&w=majority`,
     ).then(() =>{
-    app.listen(3000)
+    app.listen(3001)
     console.log('Conectou ao banco!')
 }).catch((err) => console.log(err));
