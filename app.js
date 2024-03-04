@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const salaryRoute = require('./routes/salaryRoute');
+const expenseRoute = require('./routes/expenseRoute');
 
 const app = express();
 
@@ -134,6 +135,7 @@ const dbUser = process.env.DB_USER;
 const dbPassword = process.env.DB_PASS;
 
 app.use(salaryRoute);
+app.use(expenseRoute);
 
 mongoose.connect(
     `mongodb+srv://${dbUser}:${dbPassword}@cluster0.yexraev.mongodb.net/?retryWrites=true&w=majority`,
