@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
+const salaryRoute = require('./routes/salaryRoute');
 
 const app = express();
 
@@ -13,7 +14,7 @@ app.use(cors());
 const User = require('./models/User');
 
 app.get('/', (req, res) =>{
-    res.status(200).json({ msg: 'Bem-vindo a nossa API!'});
+    res.status(200).json({ msg: 'Back-end do Finwise!'});
 })
 
 app.get('/user/:id', checkToken, async(req,res) => {
@@ -131,6 +132,8 @@ app.post('/auth/login', async(req, res) =>{
 
 const dbUser = process.env.DB_USER;
 const dbPassword = process.env.DB_PASS;
+
+app.use(salaryRoute);
 
 mongoose.connect(
     `mongodb+srv://${dbUser}:${dbPassword}@cluster0.yexraev.mongodb.net/?retryWrites=true&w=majority`,
