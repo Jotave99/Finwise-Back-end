@@ -4,7 +4,7 @@ const User = mongoose.model('User', {
     name: String,
     email: String,
     password: String,
-    salary: {
+    balance: {
         type: Number,
         default: 0
     }

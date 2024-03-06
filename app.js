@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
-const salaryRoute = require('./routes/salaryRoute');
+const balanceRoute = require('./routes/balanceRoute');
+const getBalanceRoute = require('./routes/getBalanceRoute');
 const expenseRoute = require('./routes/expenseRoute');
 
 const app = express();
@@ -134,7 +135,8 @@ app.post('/auth/login', async(req, res) =>{
 const dbUser = process.env.DB_USER;
 const dbPassword = process.env.DB_PASS;
 
-app.use(salaryRoute);
+app.use(balanceRoute);
+app.use(getBalanceRoute);
 app.use(expenseRoute);
 
 mongoose.connect(

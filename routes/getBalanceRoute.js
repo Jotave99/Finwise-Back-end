@@ -3,7 +3,7 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-router.post('/salary', async (req, res) => {
+router.get('/balance', async (req, res) => {
     try {
         const authHeader = req.headers['authorization'];
         const token = authHeader && authHeader.split(' ')[1];
@@ -21,14 +21,9 @@ router.post('/salary', async (req, res) => {
             return res.status(404).json({ msg: 'Usuário não encontrado' });
         }
 
-        const { salary } = req.body;
-        user.salary = parseFloat(user.salary) + parseFloat(salary);
-
-        await user.save();
-
-        res.status(200).json({ msg: 'Saldo adicionado com sucesso', newSalary: user.salary });
+        res.status(200).json({ balance: user.balance });
     } catch (error) {
-        console.error('Erro ao adicionar saldo:', error);
+        console.error('Erro ao obter saldo:', error);
         res.status(500).json({ msg: 'Erro no servidor' });
     }
 });
