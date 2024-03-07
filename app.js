@@ -7,6 +7,7 @@ const cors = require('cors');
 const balanceRoute = require('./routes/balanceRoute');
 const getBalanceRoute = require('./routes/getBalanceRoute');
 const expenseRoute = require('./routes/expenseRoute');
+const getExpenseRoute = require('./routes/getExpenseRoute');
 
 const app = express();
 
@@ -138,6 +139,7 @@ const dbPassword = process.env.DB_PASS;
 app.use(balanceRoute);
 app.use(getBalanceRoute);
 app.use(expenseRoute);
+app.use(getExpenseRoute);
 
 mongoose.connect(
     `mongodb+srv://${dbUser}:${dbPassword}@cluster0.yexraev.mongodb.net/?retryWrites=true&w=majority`,

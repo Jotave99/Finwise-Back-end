@@ -33,7 +33,7 @@ router.post('/expense', async (req, res) => {
 
     await expense.save();
 
-    user.salary -= value;
+    user.balance -= value;
     await user.save();
 
     res.status(200).json({ msg: 'Despesa adicionada com sucesso.' });
