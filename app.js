@@ -8,6 +8,7 @@ const balanceRoute = require('./routes/balanceRoute');
 const getBalanceRoute = require('./routes/getBalanceRoute');
 const expenseRoute = require('./routes/expenseRoute');
 const getExpenseRoute = require('./routes/getExpenseRoute');
+const totalExpenseRoute = require('./routes/totalExpenseRoute');
 
 const app = express();
 
@@ -140,6 +141,7 @@ app.use(balanceRoute);
 app.use(getBalanceRoute);
 app.use(expenseRoute);
 app.use(getExpenseRoute);
+app.use(totalExpenseRoute);
 
 mongoose.connect(
     `mongodb+srv://${dbUser}:${dbPassword}@cluster0.yexraev.mongodb.net/?retryWrites=true&w=majority`,

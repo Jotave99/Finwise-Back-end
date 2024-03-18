@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
+const User = require('../models/User');
 const Expense = require('../models/Expense');
 
-router.get('/expense', async (req, res) => {
+router.get('/expense/total', async (req, res) => {
   try {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
@@ -15,11 +16,22 @@ router.get('/expense', async (req, res) => {
     const decoded = jwt.verify(token, process.env.SECRET);
     const userId = decoded.id;
 
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ msg: 'Usuário não encontrado.' });
+    }
+
     const expenses = await Expense.find({ user: userId });
 
-    res.status(200).json({ expenses });
+    let totalExpenses = 0;
+    expenses.forEach(expense => {
+      totalExpenses += expense.value;
+    });
+
+    res.status(200).json({ totalExpenses });
   } catch (error) {
-    console.error('Erro ao obter despesas:', error);
+    console.error('Erro ao calcular despesas totais:', error);
     res.status(500).json({ msg: 'Erro no servidor.' });
   }
 });
