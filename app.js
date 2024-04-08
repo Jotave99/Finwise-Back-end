@@ -11,6 +11,8 @@ const getExpenseRoute = require('./routes/getExpenseRoute');
 const totalExpenseRoute = require('./routes/totalExpenseRoute');
 const goalRoute = require('./routes/goalRoute');
 const getGoalRoute = require('./routes/getGoalRoute');
+const reminderRoute = require('./routes/reminderRoute');
+const getReminderRoute = require('./routes/getReminderRoute');
 
 const app = express();
 
@@ -146,6 +148,8 @@ app.use(getExpenseRoute);
 app.use(totalExpenseRoute);
 app.use(goalRoute);
 app.use(getGoalRoute);
+app.use(reminderRoute);
+app.use(getReminderRoute);
 
 mongoose.connect(
     `mongodb+srv://${dbUser}:${dbPassword}@cluster0.yexraev.mongodb.net/?retryWrites=true&w=majority`,

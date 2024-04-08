@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const Goal = require('../models/Goal');
+const Reminder = require('../models/Reminder');
 
-router.get('/goal', async (req, res) => {
+router.get('/reminder', async (req, res) => {
   try {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
@@ -15,15 +15,15 @@ router.get('/goal', async (req, res) => {
     const decoded = jwt.verify(token, process.env.SECRET);
     const userId = decoded.id;
 
-    const goal = await Goal.findOne({ user: userId }).sort({ createdAt: -1 });
+    const reminder = await Reminder.find({ user: userId });
 
-    if (!goal) {
-      return res.status(404).json({ msg: 'Meta de gastos não encontrada.' });
+    if (!reminder) {
+      return res.status(404).json({ msg: 'Nenhum lembrete encontrado.' });
     }
 
-    res.status(200).json({ goal });
+    res.status(200).json({ reminder });
   } catch (error) {
-    console.error('Erro ao buscar a meta de gastos:', error);
+    console.error('Erro ao buscar lembretes:', error);
     res.status(500).json({ msg: 'Erro no servidor.' });
   }
 });
