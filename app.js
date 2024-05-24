@@ -5,14 +5,10 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const balanceRoute = require('./routes/balanceRoute');
-const getBalanceRoute = require('./routes/getBalanceRoute');
 const expenseRoute = require('./routes/expenseRoute');
-const getExpenseRoute = require('./routes/getExpenseRoute');
 const totalExpenseRoute = require('./routes/totalExpenseRoute');
 const goalRoute = require('./routes/goalRoute');
-const getGoalRoute = require('./routes/getGoalRoute');
 const reminderRoute = require('./routes/reminderRoute');
-const getReminderRoute = require('./routes/getReminderRoute');
 
 const app = express();
 
@@ -142,14 +138,10 @@ const dbUser = process.env.DB_USER;
 const dbPassword = process.env.DB_PASS;
 
 app.use(balanceRoute);
-app.use(getBalanceRoute);
 app.use(expenseRoute);
-app.use(getExpenseRoute);
 app.use(totalExpenseRoute);
 app.use(goalRoute);
-app.use(getGoalRoute);
 app.use(reminderRoute);
-app.use(getReminderRoute);
 
 mongoose.connect(
     `mongodb+srv://${dbUser}:${dbPassword}@cluster0.yexraev.mongodb.net/?retryWrites=true&w=majority`,
