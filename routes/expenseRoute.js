@@ -22,12 +22,13 @@ router.post('/expense', async (req, res) => {
       return res.status(404).json({ msg: 'Usuário não encontrado.' });
     }
 
-    const { name, type, value } = req.body;
+    const { name, type, value, date } = req.body;
 
     const expense = new Expense({
       user: userId,
       name,
       type,
+      date: new Date(date),
       value
     });
 
