@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
+const moment = require('moment-timezone');
 const User = require('../models/User');
 const Expense = require('../models/Expense');
 
@@ -24,11 +25,14 @@ router.post('/expense', async (req, res) => {
 
     const { name, type, value, date } = req.body;
 
+    // Manipulando a data para garantir que seja tratada como local
+    const localDate = moment.tz(date, 'YYYY-MM-DD', 'America/Sao_Paulo').toDate();
+
     const expense = new Expense({
       user: userId,
       name,
       type,
-      date: new Date(date),
+      date: localDate,
       value
     });
 
