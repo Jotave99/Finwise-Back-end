@@ -10,7 +10,6 @@ const GoalSchema = new mongoose.Schema({
     type: Number,
     required: true
   }
-});
+}, { timestamps: true });
 
-const Goal = mongoose.model('Goal', GoalSchema);
-module.exports = Goal;
+module.exports = mongoose.model('Goal', GoalSchema);

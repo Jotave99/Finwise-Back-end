@@ -17,9 +17,13 @@ router.post('/goal', async (req, res) => {
 
     const { amount } = req.body;
 
+    if (typeof amount !== 'number' || isNaN(amount)) {
+      return res.status(400).json({ msg: 'Formato inválido para a meta de gastos.' });
+    }
+
     const goal = new Goal({
       user: userId,
-      amount
+      amount: amount
     });
 
     await goal.save();

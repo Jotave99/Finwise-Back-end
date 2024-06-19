@@ -25,7 +25,6 @@ router.post('/expense', async (req, res) => {
 
     const { name, type, value, date } = req.body;
 
-    // Manipulando a data para garantir que seja tratada como local
     const localDate = moment.tz(date, 'YYYY-MM-DD', 'America/Sao_Paulo').toDate();
 
     const expense = new Expense({
