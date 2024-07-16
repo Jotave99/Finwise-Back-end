@@ -7,7 +7,15 @@ const User = mongoose.model('User', {
     balance: {
         type: Number,
         default: 0
-    }
+    },
+    receipts: [
+        {
+            name: String,
+            category: String,
+            date: Date,
+            value: Number
+        }
+    ]
 });
 
 module.exports = User;
