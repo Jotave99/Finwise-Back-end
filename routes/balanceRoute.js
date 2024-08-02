@@ -23,6 +23,15 @@ router.post('/balance', async (req, res) => {
         }
 
         const { name, category, value, date } = req.body;
+
+        if (!['Salário', 'Outros'].includes(category)) {
+            return res.status(400).json({ msg: 'Categoria inválida' });
+        }
+
+        if (!name || !value || !date) {
+            return res.status(400).json({ msg: 'Todos os campos são obrigatórios' });
+        }
+
         const localDate = moment.tz(date, 'YYYY-MM-DD', 'America/Sao_Paulo').toDate();
 
         const receipt = {
