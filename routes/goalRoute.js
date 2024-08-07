@@ -21,14 +21,17 @@ router.post('/goal', async (req, res) => {
       return res.status(400).json({ msg: 'Formato inválido para a meta de gastos.' });
     }
 
+    const month = new Date().toISOString().slice(0, 7);
+
     const goal = new Goal({
       user: userId,
-      amount: amount
+      amount: amount,
+      month: month,
     });
 
     await goal.save();
 
-    res.status(200).json({ msg: 'Meta de gastos adicionada com sucesso.' });
+    res.status(200).json({ msg: 'Meta de gastos adicionada com sucesso.', goal });
   } catch (error) {
     console.error('Erro ao adicionar a meta de gastos:', error);
     res.status(500).json({ msg: 'Erro no servidor.' });
@@ -47,7 +50,9 @@ router.get('/goal', async (req, res) => {
     const decoded = jwt.verify(token, process.env.SECRET);
     const userId = decoded.id;
 
-    const goal = await Goal.findOne({ user: userId }).sort({ createdAt: -1 });
+    const month = new Date().toISOString().slice(0, 7);
+
+    const goal = await Goal.findOne({ user: userId, month }).sort({ createdAt: -1 });
 
     if (!goal) {
       return res.status(404).json({ msg: 'Meta de gastos não encontrada.' });
