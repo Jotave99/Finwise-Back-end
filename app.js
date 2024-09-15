@@ -10,6 +10,7 @@ const totalExpenseRoute = require('./routes/totalExpenseRoute');
 const goalRoute = require('./routes/goalRoute');
 const reminderRoute = require('./routes/reminderRoute');
 const resetRoute = require('./routes/resetRoute');
+const goalDifference = require('./routes/goalDifference');
 
 const app = express();
 
@@ -144,6 +145,7 @@ app.use(totalExpenseRoute);
 app.use(goalRoute);
 app.use(reminderRoute);
 app.use(resetRoute);
+app.use(goalDifference);
 
 mongoose.connect(
     `mongodb+srv://${dbUser}:${dbPassword}@cluster0.yexraev.mongodb.net/?retryWrites=true&w=majority`,
